@@ -1,39 +1,39 @@
-# Diana live-room like helper
+# 嘉然直播点赞助手
 
-A Chrome and Edge extension (Chrome 105+) for [Diana's Bilibili live room](https://live.bilibili.com/22637261). Open the popup while you are in the room, click **Authorize and start**, and the extension presses the page's own like button the number of times you asked for.
+适用于 Chrome 和 Edge 的浏览器扩展（需 Chrome 105 或更高版本），服务于 [嘉然今天吃什么的 B 站直播间](https://live.bilibili.com/22637261)。在直播间打开扩展并点击「授权并开始」，扩展会按本轮设定的次数触发网页原生点赞按钮。
 
-[简体中文](README.zh-CN.md) · MIT
+[English](README.en.md) · MIT
 
-## Install and use
+## 安装和使用
 
-1. On the GitHub repository, click **Code → Download ZIP**, then unzip it.
-2. Open `chrome://extensions` in Chrome, or `edge://extensions` in Edge. Turn on **Developer mode**, choose **Load unpacked**, and select the `extension` folder you just unzipped.
-3. Sign in to Bilibili and open Diana's live room. Open the extension from the browser toolbar.
-4. Enter how many times this round should press the button, then click **Authorize and start**. The default is 5; you can choose 1 to 30. The first press happens as soon as the button is ready, and later presses are 3 seconds apart.
-5. Closing the popup does not stop the round. Open it again to watch progress or click **Stop this round**. Reloading, closing or leaving the room ends the round, and the next one needs a fresh authorization.
+1. 在 GitHub 仓库点击 **Code → Download ZIP**，下载并解压。
+2. 在 Chrome 打开 `chrome://extensions`，或在 Edge 打开 `edge://extensions`。开启「开发者模式」，选择「加载已解压的扩展程序」，然后选中解压后的 `extension` 文件夹。
+3. 登录 B 站，打开嘉然直播间。从浏览器扩展菜单打开「嘉然直播点赞助手」。
+4. 输入本轮次数，再点击「授权并开始」。默认 5 次，可选 1 至 30 次。按钮就绪后触发第一次，后续间隔 3 秒。
+5. 关闭弹窗后，本轮会继续。重新打开弹窗可查看进度或点击「停止本轮」。刷新、关闭或离开直播间会结束本轮，下次需要重新授权。
 
-If the like button has not rendered yet, the extension waits up to 15 seconds. If the button disappears or becomes unavailable after the first press, the round stops. The popup counts presses it triggered; the like count Bilibili records is whatever the room displays.
+如果点赞按钮尚未加载，扩展最多等候 15 秒。首击后按钮消失或无法使用时，本轮会停止。面板显示的是触发点击的次数，B 站记录的点赞数以直播间显示为准。
 
-## Please read: risk
+## 使用须知与风险
 
-This is a third-party fan project. It is not affiliated with, authorized by, or endorsed by Bilibili or Diana.
+这是第三方粉丝项目，与哔哩哔哩及嘉然本人没有任何关系，也未经其许可或背书。
 
-Bilibili's terms of service prohibit scripts or tools that perform interactions automatically. This extension presses the page's native button at a human-like pace (3 seconds apart, at most 30 times per round), but it is still automation, and **your account could have features restricted or be penalized**. Decide for yourself whether to use it.
+哔哩哔哩用户协议禁止通过脚本或工具自动执行交互行为。本扩展按接近人的节奏触发原生按钮（间隔 3 秒、单轮最多 30 次），但本质上仍是自动化操作，**账号存在被限制功能或处罚的可能**，请自行判断是否使用。
 
-The popup counts presses it triggered, which may not match the like count the room shows. Please do not raise the limit or shorten the interval to go faster — that makes rate limiting and detection considerably more likely.
+扩展统计的是「触发点击」的次数，实际点赞数以直播间显示为准，两者可能不一致。请勿修改次数上限或缩短间隔来提速，那会明显提高触发风控的概率。
 
-## Permissions and data
+## 权限和数据
 
-The extension requests `activeTab` and `scripting`. When the popup opens it first checks the URL of the active tab and only injects the script if the room id matches `22637261`. Presses only target the native like button in the room's chat area. The round state and progress live in the tab's memory; signing in and reporting likes are handled by Bilibili's own page.
+扩展使用 `activeTab` 和 `scripting` 权限。弹窗打开时先核对当前标签页的网址，只有匹配房间号 `22637261` 才注入脚本。点击操作仅针对房间聊天区内的原生点赞按钮。轮次和进度保存在标签页内存中，登录与点赞上报由 B 站网页处理。
 
-This is an independent open-source fan project, released under the [MIT license](LICENSE).
+这是独立的开源粉丝项目。项目使用 [MIT 许可证](LICENSE)。
 
-## Development
+## 开发
 
-The extension sources are in `extension` and can be loaded directly. Run the tests with Node.js 22 or newer; there is nothing to install.
+扩展源文件位于 `extension`，可以直接加载。使用 Node.js 22 或更新版本运行测试，无需安装依赖。
 
 ```sh
 node --test
 ```
 
-The tests drive authorization, press spacing, stopping, leaving the page and unavailable controls against a simulated page and clock. If Bilibili changes the live room markup, start with the selector in `extension/session.js`.
+测试用本地模拟的页面和时钟验证授权、点击间隔、停止、离开页面和控件不可用等路径。B 站如果更改直播间按钮结构，可检查 `extension/session.js` 中的选择器。
