@@ -1,0 +1,95 @@
+:root {
+  color-scheme: light dark;
+  font: 14px/1.5 "Microsoft YaHei UI", system-ui, sans-serif;
+  --canvas: #fff8f6;
+  --surface: #fff;
+  --text: #301b25;
+  --muted: #64505a;
+  --border: #e8cfd5;
+  --accent: #982e54;
+  --on-accent: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #251a20;
+    --surface: #30222a;
+    --text: #fff0f4;
+    --muted: #e2c6cf;
+    --border: #654954;
+    --accent: #ffb1cb;
+    --on-accent: #421126;
+  }
+}
+
+body {
+  width: 308px;
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+}
+
+main { padding: 20px; }
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+form {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+input {
+  width: 3.5rem;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--canvas);
+  color: var(--text);
+  font: inherit;
+}
+
+.hint, #status {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.hint { margin: 8px 0 12px; }
+#status { min-height: 2.8em; margin: 10px 0 0; }
+
+button {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#stop { background: var(--surface); color: var(--accent); }
+button:disabled { opacity: 0.55; cursor: default; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

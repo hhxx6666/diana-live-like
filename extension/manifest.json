@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "嘉然直播点赞助手",
+  "version": "0.1.0",
+  "description": "在嘉然直播间经你授权后，自动触发本轮的原生点赞。",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_title": "嘉然直播点赞助手",
+    "default_popup": "popup.html"
+  }
+}
