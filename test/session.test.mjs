@@ -3,7 +3,7 @@ import test from "node:test";
 import { runInNewContext } from "node:vm";
 import { controlSession, isDianaRoom, roomUrl } from "../extension/session.js";
 
-function fixture({ showButton = true } = {}) {
+function fixture({ showButton = true, showPanel = showButton } = {}) {
   let now = 0;
   let nextTimer = 0;
   let buttons = [];
@@ -30,6 +30,11 @@ function fixture({ showButton = true } = {}) {
     HTMLElement: LikeButton,
     Date: { now: () => now },
     document: {
+      readyState: "complete",
+      querySelector(selector) {
+        assert.equal(selector, "#control-panel-ctnr-box");
+        return showPanel ? {} : null;
+      },
       querySelectorAll(selector) {
         assert.equal(selector, '#control-panel-ctnr-box .like-btn[data-event-name="dianzan.0.show"]');
         return buttons;
@@ -113,13 +118,23 @@ test("按钮延迟出现时等待，出现后自动首击", () => {
   assert.deepEqual(page.clickTimes, [1_200]);
 });
 
-test("按钮有歧义时等候期限届满也不会点击", () => {
+test("按钮有歧义时报告结构变化，且不会点击", () => {
   const page = fixture();
   page.showTwo();
   page.control("start", 3);
   page.advance(15_000);
-  assert.equal(page.control("status").phase, "unavailable");
+  assert.equal(page.control("status").phase, "button-structure");
   assert.deepEqual(page.clickTimes, []);
+});
+
+test("区分未加载的控件与已加载但缺少点赞按钮的控件", () => {
+  for (const [showPanel, expected] of [[false, "room-loading"], [true, "button-structure"]]) {
+    const page = fixture({ showButton: false, showPanel });
+    assert.equal(page.control("start", 3).phase, "waiting");
+    page.advance(15_000);
+    assert.deepEqual(page.control("status"), { phase: expected, clicks: 0, total: 3 });
+    assert.deepEqual(page.clickTimes, []);
+  }
 });
 
 test("按钮不可用时停止已有轮次", () => {
@@ -127,7 +142,7 @@ test("按钮不可用时停止已有轮次", () => {
   page.control("start", 3);
   page.button.disabled = true;
   page.advance(3_000);
-  assert.equal(page.control("status").phase, "unavailable");
+  assert.equal(page.control("status").phase, "button-unavailable");
   assert.deepEqual(page.clickTimes, [0]);
 });
 

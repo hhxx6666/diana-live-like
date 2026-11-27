@@ -28,7 +28,8 @@ export function controlSession(action, count, roomUrl) {
 
   const clickInterval = 3_000;
   const loadDeadline = Date.now() + 15_000;
-  const selector = '#control-panel-ctnr-box .like-btn[data-event-name="dianzan.0.show"]';
+  const panelSelector = "#control-panel-ctnr-box";
+  const selector = panelSelector + ' .like-btn[data-event-name="dianzan.0.show"]';
   let timer;
 
   function finish(phase) {
@@ -59,7 +60,10 @@ export function controlSession(action, count, roomUrl) {
       if (state.clicks === 0 && Date.now() < loadDeadline) {
         timer = setTimeout(tick, 300);
       } else {
-        finish("unavailable");
+        const panelLoaded = document.readyState === "complete" && document.querySelector(panelSelector);
+        const phase = another || (!button && panelLoaded) ? "button-structure"
+          : button ? "button-unavailable" : "room-loading";
+        finish(phase);
       }
       return;
     }

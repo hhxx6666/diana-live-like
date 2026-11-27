@@ -36,4 +36,4 @@ The extension sources are in `extension` and can be loaded directly. Run the tes
 node --test
 ```
 
-The tests drive authorization, press spacing, stopping, leaving the page and unavailable controls against a simulated page and clock. If Bilibili changes the live room markup, start with the selector in `extension/session.js`.
+The popup distinguishes controls still loading, unrecognized button markup, a currently unavailable button and a stopped round. The tests cover these paths with a simulated page and clock. If Bilibili changes the live room markup, start with the selector in `extension/session.js`.

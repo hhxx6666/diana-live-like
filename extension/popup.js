@@ -19,10 +19,10 @@ function render({ phase, clicks = 0, total = 0 }) {
     waiting: "正在等待直播间显示点赞按钮…",
     running: `已触发 ${progress} 次。`,
     complete: `本轮结束，已触发 ${progress} 次。实际点赞以 B 站显示为准。`,
-    stopped: `已停止，已触发 ${progress} 次。`,
-    unavailable: clicks
-      ? `点赞按钮已不可用，本轮停止。已触发 ${progress} 次。`
-      : "当前页面未显示可用的点赞按钮。按钮出现后可重新开始。",
+    stopped: `本轮已停止。已触发 ${progress} 次。如需继续，请重新授权。`,
+    "room-loading": `直播间控件尚未加载，本轮已停止（${progress}）。请等页面加载后重试。`,
+    "button-structure": `无法识别唯一的点赞按钮，页面结构可能已变化。本轮已停止（${progress}）。`,
+    "button-unavailable": `点赞按钮当前不可用，本轮已停止（${progress}）。请检查页面和登录状态。`,
     "invalid-count": "请输入 1 到 30 之间的整数。",
     "wrong-room": "请进入嘉然直播间，再打开扩展。",
     error: "暂时无法读取页面。刷新直播间后可重试。"
